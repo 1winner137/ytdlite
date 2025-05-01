@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yt-dlite - Lightweight YouTube Downloader</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
+
+    <style>
+    .code-block {
+        position: relative;
+        background: #f7f7f7;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .copy-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 0.3rem 0.6rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+    }
+
+    .copy-btn:hover {
+        opacity: 1;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="./images/yt-dlite.png" alt="yt-dlite logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="#privacy-policy">Privacy Policy</a></li>
+                    <li><a href="#terms-of-use">Terms of Use</a></li>
+                    <li><a href="#community">Community</a></li>
+                    <li><a href="#contributors">Contributors</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="privacy-policy">
+            <br>
+            <br>
+            <h2>Privacy Policy</h2>
+            <p style="text-align: justify;">At yt-dlite, user privacy is a top priority. We do not collect, store, share, or transmit any personal information or usage data. All downloads and activities remain entirely local to your device, ensuring complete user confidentiality and control. No analytics, no hidden trackers — just pure functionality. Your trust matters to us, and yt-dlite is committed to safeguarding it by design.</p>
+        </section>
+        
+        <section id="terms-of-use">
+            <br>
+            <br>
+            <h2>Terms of Use</h2>
+            <p style="text-align: justify;">By using yt-dlite, you agree to comply with all relevant local, national, and international copyright and intellectual property laws. This software is provided strictly for personal, educational, and non-commercial use. The developers of yt-dlite are not liable for any misuse, including illegal downloading or distribution of copyrighted material. You assume full responsibility for any content you download or share. Use yt-dlite responsibly and ethically.</p>
+        </section>
+
+        <section id="community">
+            <br>
+            <br>
+            <h2>Community</h2>
+            <p style="text-align: justify;">We believe in open-source collaboration and the power of a supportive community. Whether you're a developer, designer, tester, or everyday user, your voice matters. Join our growing network of contributors and enthusiasts. Share your ideas, report issues, suggest new features, or help improve yt-dlite for everyone. Together, we can build a better, more efficient downloader that serves real user needs.</p>
+            <p style="text-align: justify;"><a href="https://github.com/1winner137/yt-dlite" target="_blank">Visit yt-dlite on GitHub →</a></p>
+        </section>
+
+        <section id="contributors">
+            <br>
+            <br>
+            <h2>Contributors & Support</h2>
+            <p style="text-align: justify;">Gratitude is extended to all individuals who have contributed code, documentation, design, testing, and feedback to the yt-dlite project. The collective effort of the community has made continued development and refinement possible.</p>
+            
+            <p style="text-align: justify;">Those who have not yet contributed through direct involvement are invited to support the project financially. Every donation, regardless of amount, assists in covering infrastructure costs, promoting development, and ensuring the long-term sustainability of yt-dlite.</p>
+
+            <h3>Donation Methods</h3>
+
+            <div class="code-block">
+                <strong>Bitcoin (BTC) Address:</strong>
+                <pre id="btc-address">bc1qyr88kayp9nqve9u9jpav4kft4ln3rgu7wwqn4h</pre>
+                <button class="copy-btn" data-clipboard-target="#btc-address">Copy</button>
+            </div>
+
+            <div class="code-block">
+                <strong>Ethereum (ETH) Address:</strong>
+                <pre id="eth-address">your-ethereum-wallet-address-here</pre>
+                <button class="copy-btn" data-clipboard-target="#eth-address">Copy</button>
+            </div>
+
+            <div class="code-block">
+                <strong>PayPal:</strong>
+                <pre id="paypal-link">https://paypal.me/yourpaypal</pre>
+                <button class="copy-btn" data-clipboard-target="#paypal-link">Copy</button>
+            </div>
+
+            <p>Every contribution is valued and directly supports future development, maintenance, and improvements. Thank you for enabling progress through your support.</p>
+        </section>
+
+        <br><br>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#privacy-policy">Privacy Policy</a>
+                    <a href="#terms-of-use">Terms of Use</a>
+                    <a href="https://github.com/1winner137/yt-dlite/issues" target="_blank">Report a Bug</a>
+                    <a href="#contributors.html">Support</a>
+                </div>
+                <p class="copyright">
+                    &copy; 2025 yt-dlite. All rights reserved.<br>
+                    Contributions and support are appreciated.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./clipboard.min.js"></script>
+    <script src="scripts.js"></script>
+    <script>
+    var clipboard = new ClipboardJS('.copy-btn');
+
+    clipboard.on('success', function(e) {
+        e.trigger.textContent = 'Copied!';
+        setTimeout(function() {
+            e.trigger.textContent = 'Copy';
+        }, 2000);
+    });
+
+    clipboard.on('error', function(e) {
+        console.error('Clipboard failed', e);
+    });
+    </script>
+</body>
+</html>

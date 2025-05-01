@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yt-dlite - Lightweight YouTube Downloader</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="./images/yt-dlitel.png" alt="yt-dlite logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="#documentation">Documentation</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container" style="text-align: center; position: relative; z-index: 2;">
+            <h1><strong>Yt-dlite</strong></h1>
+            <p class="tagline" style="text-align: justify;">
+                <strong>yt-dlite</strong> is a cutting-edge, lightweight video downloader designed for speed, efficiency, and reliability. With support for over <strong> 1,200</strong> popular platforms, including YouTube, Instagram, TikTok, Facebook, and X(Twitter). Also <strong>yt-dlite</strong>'s built-in converter offers a simple friendly solution, allowing you to quickly convert your downloads(YouTube playlists, Instagram stories, TikTok clips, or media from countless other sites) into the format of your choice, with exceptional performance, flexibility, and ease of use, all within a clean, modern interface.
+            </p>
+            <div class="cta-buttons">
+                <a href="#download" class="btn btn-primary">Download Now</a>
+                <a href="#documentation" class="btn btn-secondary">Learn More</a>
+            </div>
+            <div class="hero-image" id="heroImage">
+                <img src="./images/screenshot1.png" alt="yt-dlite screenshot" id="screenshotImage">
+            </div>
+        </div>
+        <style>
+            .hero {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .hero::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url('./images/screenshot5.png');
+                background-position: right center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                opacity: 0.15;
+                z-index: 1;
+                /* Create the fade effect from right to center */
+                mask-image: linear-gradient(to left, rgba(0,0,0,0.8), rgba(0,0,0,0));
+                -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            }
+            
+            /* Add styling for animation effects */
+            .hero-image {
+                transition: transform 0.5s ease;
+            }
+            
+            .btn {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            
+            /* Image transition effect */
+            #screenshotImage {
+                transition: opacity 1s ease-in-out;
+            }
+            .caption {
+            text-align: center;
+            font-style: italic;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        </style>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get the hero image element
+                const heroImage = document.getElementById('heroImage');
+                const screenshotImage = document.getElementById('screenshotImage');
+                const backgroundElement = document.querySelector('.hero');
+                
+                // Array of screenshot images
+                const screenshots = [
+                    './images/screenshot1.PNG',
+                    './images/screenshot6.PNG',
+                    './images/screenshot20.png',
+                    './images/screenshot21.png',
+                    './images/screenshot10.PNG'
+                ];
+                
+                let currentImageIndex = 0;
+                let preloadedImages = [];
+                let allImagesLoaded = false;
+                
+                // Preload all images first
+                function preloadImages() {
+                    let loadedCount = 0;
+                    
+                    // Show loading indicator (optional)
+                    console.log('Preloading images...');
+                    
+                    screenshots.forEach((src, index) => {
+                        preloadedImages[index] = new Image();
+                        preloadedImages[index].onload = function() {
+                            loadedCount++;
+                            if (loadedCount === screenshots.length) {
+                                allImagesLoaded = true;
+                                console.log('All images preloaded successfully');
+                                // Start the image rotation after all images are loaded
+                                startImageRotation();
+                                // Start the animation after all images are loaded
+                                setTimeout(animateHeroImage, 1000);
+                            }
+                        };
+                        preloadedImages[index].onerror = function() {
+                            console.error(`Failed to load image: ${src}`);
+                            loadedCount++;
+                            if (loadedCount === screenshots.length) {
+                                allImagesLoaded = true;
+                                // Start anyway, but with potentially fewer images
+                                startImageRotation();
+                                setTimeout(animateHeroImage, 1000);
+                            }
+                        };
+                        preloadedImages[index].src = src;
+                    });
+                }
+                
+                // Function to change the images with fade effect
+                function changeImage() {
+                    // Fade out
+                    screenshotImage.style.opacity = 0;
+                    
+                    setTimeout(() => {
+                        // Change image source
+                        currentImageIndex = (currentImageIndex + 1) % screenshots.length;
+                        screenshotImage.src = screenshots[currentImageIndex];
+                        
+                        // Also update the background image
+                        backgroundElement.style.setProperty('--bg-image', `url(${screenshots[currentImageIndex]})`);
+                        
+                        // Fade in
+                        screenshotImage.style.opacity = 1;
+                    }, 1000);
+                }
+                
+                // Start the image rotation
+                function startImageRotation() {
+                    setInterval(changeImage, 5000); // Change image every 5 seconds
+                }
+                
+                // Add subtle floating animation
+                function animateHeroImage() {
+                    heroImage.style.transform = 'translateY(-10px)';
+                    setTimeout(() => {
+                        heroImage.style.transform = 'translateY(0)';
+                        setTimeout(animateHeroImage, 2000);
+                    }, 2000);
+                }
+                
+                // Start preloading
+                preloadImages();
+                
+                // Optional: Add parallax effect on scroll
+                window.addEventListener('scroll', function() {
+                    const scrollPosition = window.scrollY;
+                    if(scrollPosition < 500) { // Only apply effect in the hero section
+                        const heroBeforeElement = document.querySelector('.hero::before');
+                        if (heroBeforeElement) {
+                            heroBeforeElement.style.backgroundPositionY = 
+                                `${50 + (scrollPosition * 0.05)}%`;
+                        }
+                    }
+                });
+            });
+        </script>
+                        <br>
+                        <p class="caption">Images Showing different languages searches, and some cool features! </p>
+    </section>
+    
+            
+            <div class="section-intro">
+                <h2>Features</h2>
+                <p style="text-align: justify;">YT-DLite goes beyond basic downloading with built-in, powerful conversion tools for both online and local media - all completely free. No ads, no subscriptions, no hidden costs.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎞️</div>
+                    <h3>Video Conversion</h3>
+                    <p>Convert videos between formats like MP4, MKV, WebM, AVI, and GIF with preserved quality</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎵</div>
+                    <h3>Audio Extraction</h3>
+                    <p>Extract high-quality audio as MP3, WAV, M4A, and more from any video</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Format Conversion</h3>
+                    <p>Convert audio files across formats with smart quality preservation</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Smart Processing</h3>
+                    <p>Intelligent merging of video/audio when needed — done automatically</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Dual Interface</h3>
+                    <p>Switch between GUI and CLI based on your workflow needs</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌓</div>
+                    <h3>Dark & Light Themes</h3>
+                    <p>Choose your preferred visual mode for comfortable use</p>
+                </div>
+            </div>
+            
+            <div class="key-features-section">
+                <h2>Key Features</h2>
+                <ul class="features-list">
+                    <li>Multiple User Modes: Choose between Novice, Professional, and Expert modes</li>
+                    <li>Versatile Search: Find content using keywords or direct URLs</li>
+                    <li>Multidownloads: Process multiple files simultaneously with queue prioritization</li>
+                    <li>High Resolution Support: Handle 4K, 2040p, 1080p down to 240p content</li>
+                    <li>Playlist Downloads: Efficiently download entire playlists or select specific videos</li>
+                    <li>Format Selection: Preview and choose from available quality options before downloading</li>
+                    <li>Resume Support: Continue interrupted downloads with automatic recovery</li>
+                    <li>Download Control: Pause, resume, and restart downloads at any time</li>
+                    <li>Subtitle Integration: Automatic subtitle integration of different languages</li>
+                    <li>Error Logging: Supports ERROR, DEBUG, and INFO logs for easy troubleshooting</li>
+                </ul>                
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="download-section">
+        <div class="container">
+            <h2>Download yt-dlite</h2>
+            <p>Choose your operating system below:</p>
+            
+            <div class="download-options">
+                <div class="download-card">
+                    <div class="download-icon">
+                        <img src="./images/windows.png" alt="Windows icon">
+                    </div>
+                    <h3>Windows</h3>
+                    <p>Version 1.0.0</p>
+                    <a href="https://github.com/1winner137/yt-dlite/releases/download/Compliles/yt-dlite+ffmpeg.setup.exe" class="btn btn-download">Download .exe</a>
+                </div>
+                
+                <div class="download-card">
+                    <div class="download-icon">
+                        <img src="./images/linux.png" alt="Linux icon">
+                    </div>
+                    <h3>Linux</h3>
+                    <p>Version 1.0.0</p>
+                    <a href="https://github.com/1winner137/yt-dlite/releases/download/Compliles/yt-dlite_1.0-1.deb" class="btn btn-download">Download .deb</a>
+                </div>
+                
+                <div class="download-card">
+                    <div class="download-icon">
+                        <img src="./images/macos.png" alt="macOS icon">
+                    </div>
+                    <h3>macOS</h3>
+                    <p>Version 1.0.0</p>
+                    <a href="https://github.com/1winner137/yt-dlite/releases/download/Compliles/yt-dlite_1.0-1.dmg" class="btn btn-download">Download .dmg</a>
+                </div>
+            </div>
+            
+            <div class="release-info">
+                <p><strong>Latest Release:</strong> April 30, 2025</p>
+                <p><a href="changelog.html">View Changelog</a></p>
+                <br>
+            </div>
+            
+
+<script src=".\clipboard.min.js"></script>
+
+
+<div style="text-align: left;">
+    <h2 style="text-align: left;">Install from Command Line</h2>
+    <br>
+    <p style="text-align: left;">Before installing, make sure <strong>Python 3.6+</strong> and <strong>FFmpeg</strong> are installed on your system.</p>
+
+    <p style="text-align: left;">For more information, visit <a href="https://github.com/1winner137/yt-dlite?tab=readme-ov-file#installation" target="_blank">our installation guide</a>.</p>
+
+    <div class="install-tabs" style="text-align: left;">
+        <div class="install-tab active" style="text-align: left;">Windows</div>
+        <div class="install-tab" style="text-align: left;">Linux/Debian</div>
+        <div class="install-tab" style="text-align: left;">macOS</div>
+    </div>
+
+    <div class="tab-content" style="text-align: left;">
+        <div class="tab-pane active" style="text-align: left;">
+            <h4 style="text-align: left;">Windows</h4>
+            <div class="code-block" style="text-align: left;">
+                <pre style="text-align: left;"><code id="windows-code">git clone https://github.com/1winner137/yt-dlite.git
+cd yt-dlite/installation
+installation.bat</code></pre>
+                <button class="copy-btn" style="text-align: left;" data-clipboard-target="#windows-code">Copy</button>
+            </div>
+        </div>
+
+        <div class="tab-pane" style="display: none; text-align: left;">
+            <h4 style="text-align: left;">Linux / Debian (Ubuntu, Pop!_OS, Zorin, etc.)</h4>
+            <div class="code-block" style="text-align: left;">
+                <pre style="text-align: left;"><code id="linux-code">git clone https://github.com/1winner137/yt-dlite.git
+cd yt-dlite/installation
+chmod +x ./installation_debian.sh && ./installation_debian.sh</code></pre>
+                <button class="copy-btn" style="text-align: left;" data-clipboard-target="#linux-code">Copy</button>
+            </div>
+        </div>
+
+        <div class="tab-pane" style="display: none; text-align: left;">
+            <h4 style="text-align: left;">macOS</h4>
+            <div class="code-block" style="text-align: left;">
+                <pre style="text-align: left;"><code id="macos-code">git clone https://github.com/1winner137/yt-dlite.git
+cd yt-dlite/installation
+chmod +x ./installation_macos.sh && ./installation_macos.sh</code></pre>
+                <button class="copy-btn" style="text-align: left;" data-clipboard-target="#macos-code">Copy</button>
+            </div>
+        </div>
+    </div>                     
+
+    <p style="text-align: left;">For Downloading source code and manual compiling, visit our <a href="https://github.com/1winner137/yt-dlite">GitHub repository</a>.</p>
+    <div class="hero-image" style="text-align: left;">
+        <img src="./images/screenshot7.PNG" alt="Fig: Home display when user search with different languages">
+        <br>
+        <p class="caption">Fig: search results with different language</p>
+    </div>
+</div>
+
+<style>
+.code-block {
+    position: relative;
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.3rem 0.6rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.copy-btn:hover {
+    opacity: 1;
+}
+</style>
+
+<script>
+var clipboard = new ClipboardJS('.copy-btn');
+
+clipboard.on('success', function(e) {
+    e.trigger.textContent = 'Copied!';
+    setTimeout(function() {
+        e.trigger.textContent = 'Copy';
+    }, 2000);
+});
+
+// Handle clipboard error
+clipboard.on('error', function(e) {
+    console.error('Clipboard failed', e);
+});
+</script>           
+
+    <section id="documentation">
+        <br>
+        <br>
+        <div style="width: 100%; padding: 20px;">
+            <h2 style="color: red; text-align: center; font-size: 30px;">Documentation</h3>
+            
+            <h2 style="color: red; text-align: left;">Getting Started</h2>
+            
+            <h3 style="text-align: left;">Basic Usage (GUI)</h3>
+            <ol class="instruction-list" style="text-align: left;">
+                <li>Launch <strong>YT-DLite</strong> from your applications menu.</li>
+                <li>Paste a URL or enter search keywords in the search bar.</li>
+                <li>Select your preferred format and quality.</li>
+                <li>Choose destination folder and click <strong>Download</strong>.</li>
+            </ol>
+            
+            <h3 style="text-align: left;">Basic Usage (CLI)</h3>
+            <p style="text-align: left;">To download a video via Command Line:</p>
+            <pre style="text-align: left; font-size: 18px;"><code>yt-dlite4cmd.exe <span style="color:red;">[options]</span> [urls]</code></pre>
+            <p style="text-align: left;">Positional arguments:</p>
+            <ul style="text-align: left;">
+                <li><strong>[urls]</strong> - <em>URL or Link to download</em></li>
+            </ul>
+            
+            <h3 style="text-align: left; color: red;">Options</h3>
+            <ul style="text-align: left;">
+                <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;--video</strong> - <em>any video URL to download</em></li>
+                <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;--audio</strong> - <em>any audio URL to download</em></li>
+                <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;--format</strong> - <em>Specify format for video or audio (e.g., mp4, webm, mp3)</em></li>
+                <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;--output</strong> - <em>Specify custom output directory</em></li>
+                <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;--list-formats</strong> - <em>List available formats for the given YouTube URL</em></li>
+                <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;--resume</strong> - <em>Resume partially downloaded files</em></li>
+                <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;--help</strong> - <em>Show this help message</em></li>
+            </ul>            
+            
+            <div class="documentation-button" style="text-align: center; margin-top: 40px;">
+                <a href="full-documentation.html" class="btn-doc" style="display: inline-block; background-color: #ff000d; color: #fff; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold; transition: background-color 0.3s;">View Full Documentation</a>
+            </div>
+            
+            <br>
+            <div class="hero-image" style="text-align: left;">
+                <img src="./images/screenshot24.png" alt="yt-dlite screenshot">
+                <br>
+                <p class="caption">Fig: Showing incomplete downloads, in Kali-linux</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <h3>Is yt-dlite free?</h3>
+                <p style="text-align: justify;">Yes, yt-dlite is completely free and open source. No ads, no subscriptions, no hidden costs ever.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What sites does YT-DLite support?</h3>
+                <p style="text-align: justify;">YT-DLite supports 1200+ sites, like YouTube, Vimeo, Facebook, Instagram, X (Twitter), TikTok, Twitch, and many more! Whether you're downloading from mainstream platforms or niche websites, YT-DLite has you covered with seamless, high-speed downloads.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Can I download playlists?</h3>
+                <p style="text-align: justify;">Yes, YT-DLite supports downloading entire playlists or selecting specific videos from a playlist.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What makes YT-DLite different from other downloaders?</h3>
+                <p style="text-align: justify;">YT-DLite combines powerful features with simplicity. It offers both GUI and CLI interfaces, supports multiple user modes, provides advanced conversion tools, handles high-resolution content, and integrates subtitles - all while being lightweight and fast.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Is it legal to use YT-DLite?</h3>
+                <p style="text-align: justify;">YT-DLite is legal software, but users are responsible for complying with site terms of service and copyright laws in their jurisdiction. We recommend only downloading content you have permission to use.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What video and audio formats are supported?</h3>
+                <p style="text-align: justify;">YT-DLite supports a wide range of formats including MP4, MKV, WebM, AVI, GIF for video, and MP3, WAV, M4A, and more for audio.</p>
+            </div>
+            <style>
+                        .tip {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+            </style>
+            <div class="faq-item">
+                <h3>What Makes yt-dlite Like an Excavator? Sometimes Like a Jet or super-sonic car</h3>
+                <p style="text-align: justify;">
+                    yt-dlite is built to handle tough jobs—much like an excavator digging deep to extract valuable materials. It operates reliably even on slower internet connections, down to 0.04 Mbps, and performs heavy tasks like downloading large files or full playlists with precision.
+                    <br><br>
+                    In more favorable conditions, yt-dlite behaves like a jet: fast, sleek, and efficient—downloading, converting, and managing media at high speed with expert-level control for advanced users.
+                    <br><br>
+                    However, when internet speeds drop significantly below 0.01 Mbps, for long time particularly during large or long downloads, when using GUI you may occasionally encounter a temporary freeze(yt-dlite stucking) due to thread delay. This is false positive that can usually be resolved by restarting the application. To do so, just cancel if fails, press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd> to open Task Manager, locate "yt-dlite," right-click it, and select "End Task." Then, reopen the app to continue from where you left off.
+                </p>
+                <p class="tip" style="text-align: justify;">
+                    Don’t worry—yt-dlite automatically remembers all your downloads, including incomplete ones. As we continue to evolve, future versions will be optimized to perform even under ultra-low speeds—as low as 0.00001 Mbps—with even greater stability and reliability.
+                </p>
+            </div>
+
+            
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 style="color: red;">About yt-dlite</h2>
+            <p style="text-align: justify;">YT-DLite was created to provide a simple, efficient way to download and convert videos without bloat or unnecessary features. Our focus is on speed, reliability, and user experience, while offering professional-grade features for all types of users.</p>
+            
+            <h3 style="color: red;">Our Mission</h3>
+            <p style="text-align: justify;">
+                To provide the most powerful and user-friendly media downloading and conversion tool that's accessible to everyone—offering complete freedom without any cost barriers. And making sure <strong>No download</strong> goes unresolved. Whether it’s a stubborn video, playlist, or rare format, yt-dlite is built to handle it all with precision and ease—earning its place as a leader in the download utility space.
+            </p>
+                        
+            <h3 style="color: red;">Contact</h3>
+            <p style="text-align: justify;">For support or inquiries, please reach out to us at: <a href="mailto:1winner4win@proton.me">support@yt-dlite.com</a></p>
+            
+            <div class="github">
+                <p style="text-align: justify;">yt-dlite is open source! Contribute on GitHub:</p>
+                <a href="https://github.com/1winner137/yt-dlite" class="btn-doc">GitHub Repository</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="miscellenous.html#privacy-policy">Privacy Policy</a>
+                    <a href="miscellenous.html#terms-of-use">Terms of Use</a>
+                    <a href="https://github.com/1winner137/yt-dlite/issues">Report a Bug</a>
+                    <a href="miscellenous.html#community">Community</a>
+                    <a href="miscellenous.html#contributors.html">Contributors</a>
+                </div>
+                <p class="copyright">&copy; 2025 yt-dlite. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script to toggle between installation tabs
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.install-tab');
+            const tabContents = document.querySelectorAll('.tab-pane');
+            
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and hide all contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.style.display = 'none');
+                    
+                    // Add active class to clicked tab and show corresponding content
+                    tab.classList.add('active');
+                    tabContents[index].style.display = 'block';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
